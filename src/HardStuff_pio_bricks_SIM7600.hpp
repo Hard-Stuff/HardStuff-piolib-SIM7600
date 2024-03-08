@@ -15,6 +15,10 @@
 #include <StreamDebugger.h>
 #endif
 
+#ifndef SIMCOM_BAUD
+#define SIMCOM_BAUD 115200
+#endif 
+
 namespace SIMCOM
 {
 #pragma region DEFINES
@@ -156,7 +160,7 @@ namespace SIMCOM
         // Turn on the GPRS
         Serial.print(F("Connecting to "));
         Serial.print(SIMCOM_APN);
-        if (!modem.gprsConnect(SIMCOM_APN_4G))
+        if (!modem.gprsConnect(SIMCOM_APN))
         {
             Serial.println(" fail");
             return false;
