@@ -1,0 +1,3 @@
+[submodule "include/TinyGSM"]
+	path = include/TinyGSM
+	url = https://github.com/Hard-Stuff/TinyGSM.git

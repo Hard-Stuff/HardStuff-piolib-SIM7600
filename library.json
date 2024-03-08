@@ -16,8 +16,7 @@
 	],
 	"license": "MIT",
 	"dependencies": {
-		"paulstoffregen/Time": "^1.6.1",
-		"https://github.com/HardStuff/TinyGSM.git": ""
+		"paulstoffregen/Time": "^1.6.1"
 	},
 	"frameworks": "*",
 	"platforms": "*"
