@@ -19,9 +19,6 @@
 #define SIM7600_BAUD 115200
 #endif
 
-#define SIM7600ClientSecure TinyGsmClientSecure
-#define SIM7600Client TinyGsmClient
-
 namespace SIM7600
 {
 #pragma region DEFINES
@@ -215,3 +212,15 @@ namespace SIM7600
         return makeTime(tm); // Convert to time_t
     }
 }
+
+class SIM7600ClientSecure : public TinyGsmClientSecure
+{
+public:
+    // Wrap our client around the default SIM7600 client
+    SIM7600ClientSecure(int mux) : TinyGsmClientSecure(SIM7600::modem, mux){};
+};
+class SIM7600Client : public TinyGsmClient
+{
+    // Wrap our client around the default SIM7600 client
+    SIM7600Client(int mux) : TinyGsmClient(SIM7600::modem, mux){};
+};
