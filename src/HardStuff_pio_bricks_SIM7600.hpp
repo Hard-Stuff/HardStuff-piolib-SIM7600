@@ -8,7 +8,7 @@
 
 // #define TINY_GSM_DEBUG Serial
 
-#include <TinyGsm.h>
+#include <TinyGsmClient.h>
 #include <TimeLib.h>
 
 #ifdef DUMP_AT_COMMANDS
