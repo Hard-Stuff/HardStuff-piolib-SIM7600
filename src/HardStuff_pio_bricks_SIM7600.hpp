@@ -19,6 +19,9 @@
 #define SIMCOM_BAUD 115200
 #endif
 
+#define SIM7600ClientSecure TinyGsmClientSecure
+#define SIM7600Client TinyGsmClient
+
 namespace SIMCOM
 {
 #pragma region DEFINES
@@ -29,14 +32,6 @@ namespace SIMCOM
 #else
     TinyGsm modem(SerialAT);
 #endif
-    TinyGsmClientSecure secure_client_0(modem, 0); // SSL-enabled clients, use this for HTTPS/MQTTS clients
-    TinyGsmClientSecure secure_client_1(modem, 1); // SSL-enabled clients, use this for HTTPS/MQTTS clients
-    TinyGsmClient unsecure_client_2(modem, 2);     // Unsecure clients, use only for http:80 or mqtt:1883
-    TinyGsmClient unsecure_client_3(modem, 3);     // Unsecure clients, use only for http:80 or mqtt:1883
-    TinyGsmClient unsecure_client_4(modem, 4);     // Unsecure clients, use only for http:80 or mqtt:1883
-    TinyGsmClient unsecure_client_5(modem, 5);     // Unsecure clients, use only for http:80 or mqtt:1883
-    TinyGsmClient unsecure_client_6(modem, 6);     // Unsecure clients, use only for http:80 or mqtt:1883
-    TinyGsmClient unsecure_client_7(modem, 7);     // Unsecure clients, use only for http:80 or mqtt:1883
 
 #pragma endregion
 
@@ -131,7 +126,6 @@ namespace SIMCOM
     bool init()
     {
         SerialAT.begin(SIMCOM_BAUD, SERIAL_8N1, SIMCOM_UART_RX, SIMCOM_UART_TX);
-
         delay(6000);
 
         // This can take quite some time
