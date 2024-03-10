@@ -15,14 +15,14 @@
 #include <StreamDebugger.h>
 #endif
 
-#ifndef SIMCOM_BAUD
-#define SIMCOM_BAUD 115200
+#ifndef SIM7600_BAUD
+#define SIM7600_BAUD 115200
 #endif
 
 #define SIM7600ClientSecure TinyGsmClientSecure
 #define SIM7600Client TinyGsmClient
 
-namespace SIMCOM
+namespace SIM7600
 {
 #pragma region DEFINES
 #define SerialAT Serial1
@@ -119,13 +119,13 @@ namespace SIMCOM
     }
 
     /**
-     * @brief Initialize the SIMCOM module against the configs, and connect to network.
+     * @brief Initialize the SIM7600 module against the configs, and connect to network.
      *
      * @returns true if successful, otherwise false
      */
     bool init()
     {
-        SerialAT.begin(SIMCOM_BAUD, SERIAL_8N1, SIMCOM_UART_RX, SIMCOM_UART_TX);
+        SerialAT.begin(SIM7600_BAUD, SERIAL_8N1, SIM7600_UART_RX, SIM7600_UART_TX);
         delay(6000);
 
         // This can take quite some time
@@ -155,8 +155,8 @@ namespace SIMCOM
 
         // Turn on the GPRS
         Serial.print(F("Connecting to "));
-        Serial.print(SIMCOM_APN);
-        if (!modem.gprsConnect(SIMCOM_APN))
+        Serial.print(SIM7600_APN);
+        if (!modem.gprsConnect(SIM7600_APN))
         {
             Serial.println(" fail");
             return false;
