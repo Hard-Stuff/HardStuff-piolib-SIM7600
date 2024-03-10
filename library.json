@@ -1,7 +1,7 @@
 {
 	"name": "HardStuff_pio_bricks_SIM7600",
 	"version": "0.0.1",
-"description": "A wrapper around HardStuff's custom TinyGSM, that standardises the startup procedure and helper functions.",
+	"description": "A wrapper around HardStuff's custom TinyGSM, that standardises the startup procedure and helper functions.",
 	"keywords": "http",
 	"repository": {
 		"type": "git",
@@ -16,7 +16,8 @@
 	],
 	"license": "MIT",
 	"dependencies": {
-		"paulstoffregen/Time": "^1.6.1"
+		"paulstoffregen/Time": "^1.6.1",
+        "external-repo": "https://github.com/Hard-Stuff/TinyGSM.git"
 	},
 	"frameworks": "*",
 	"platforms": "*"
