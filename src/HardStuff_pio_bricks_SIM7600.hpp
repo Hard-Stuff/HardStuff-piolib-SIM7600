@@ -17,7 +17,7 @@
 
 #ifndef SIMCOM_BAUD
 #define SIMCOM_BAUD 115200
-#endif 
+#endif
 
 namespace SIMCOM
 {
@@ -29,12 +29,14 @@ namespace SIMCOM
 #else
     TinyGsm modem(SerialAT);
 #endif
-    // TinyGsmClient client(modem, 0);
-    TinyGsmClientSecure client(modem, 0);
-
-#ifndef PORT
-#define PORT 80
-#endif
+    TinyGsmClientSecure secure_client_0(modem, 0); // SSL-enabled clients, use this for HTTPS/MQTTS clients
+    TinyGsmClientSecure secure_client_1(modem, 1); // SSL-enabled clients, use this for HTTPS/MQTTS clients
+    TinyGsmClient unsecure_client_2(modem, 2);     // Unsecure clients, use only for http:80 or mqtt:1883
+    TinyGsmClient unsecure_client_3(modem, 3);     // Unsecure clients, use only for http:80 or mqtt:1883
+    TinyGsmClient unsecure_client_4(modem, 4);     // Unsecure clients, use only for http:80 or mqtt:1883
+    TinyGsmClient unsecure_client_5(modem, 5);     // Unsecure clients, use only for http:80 or mqtt:1883
+    TinyGsmClient unsecure_client_6(modem, 6);     // Unsecure clients, use only for http:80 or mqtt:1883
+    TinyGsmClient unsecure_client_7(modem, 7);     // Unsecure clients, use only for http:80 or mqtt:1883
 
 #pragma endregion
 
