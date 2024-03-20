@@ -22,19 +22,21 @@
 namespace SIM7600
 {
 #pragma region DEFINES
-#define SerialAT Serial1
+#ifndef SIM7600_SERIAL
+#define SIM7600_SERIAL Serial1
+#endif
 #ifdef DUMP_AT_COMMANDS
-    StreamDebugger debugger(SerialAT, Serial);
+    StreamDebugger debugger(SIM7600_SERIAL, Serial);
     TinyGsm modem(debugger);
 #else
-    TinyGsm modem(SerialAT);
+    TinyGsm modem(SIM7600_SERIAL);
 #endif
 
 #pragma endregion
 
 #pragma region GPS_STRUCTS
-#ifndef GPS_ACCURACY_LIMIT
-#define GPS_ACCURACY_LIMIT 30000 // 30 metres
+#ifndef SIM7600_GPS_ACCURACY_LIMIT
+#define SIM7600_GPS_ACCURACY_LIMIT 30000 // 30 metres
 #endif
     struct GPSResponse
     {
@@ -51,16 +53,26 @@ namespace SIM7600
         int hour = 0;
         int min = 0;
         int sec = 0;
+        /**
+         * @brief Is the GPS within accuracy (as defined by #SIM7600_GPS_ACCURACY_LIMIT)
+         *
+         * @returns true if within accuracy, otherwise false
+         */
+        bool withinAccuracy() const { return (accuracy <= SIM7600_GPS_ACCURACY_LIMIT && accuracy != 0); }
 
-        bool withinAccuracy() const { return (accuracy <= GPS_ACCURACY_LIMIT && accuracy != 0); }
-        void print()
+        /**
+         * @brief Print the GPS response data to Serial (default) or to the output stream.
+         *
+         * @param output_stream This could be a File or a Http POST-request body content, for example.
+         */
+        void print(Stream *output_stream = &Serial)
         {
-            Serial.println("Latitude:" + String(lat, 8) + "\tLongitude:" + String(lon, 8));
-            Serial.println("Speed:" + String(speed) + "\tAltitude:" + String(alt));
-            Serial.println("Visible Satellites:" + String(vsat) + "\tUsed Satellites:" + String(usat));
-            Serial.println("Accuracy:" + String(accuracy) + ", that is " + String(withinAccuracy() ? "" : "not ") + "within tolerance!");
-            Serial.println("Year:" + String(year) + "\tMonth:" + String(month) + "\tDay:" + String(day));
-            Serial.println("Hour:" + String(hour) + "\tMinute:" + String(min) + "\tSecond:" + String(sec));
+            output_stream->println("Latitude:" + String(lat, 8) + "\tLongitude:" + String(lon, 8));
+            output_stream->println("Speed:" + String(speed) + "\tAltitude:" + String(alt));
+            output_stream->println("Visible Satellites:" + String(vsat) + "\tUsed Satellites:" + String(usat));
+            output_stream->println("Accuracy:" + String(accuracy) + ", that is " + String(withinAccuracy() ? "" : "not ") + "within tolerance!");
+            output_stream->println("Year:" + String(year) + "\tMonth:" + String(month) + "\tDay:" + String(day));
+            output_stream->println("Hour:" + String(hour) + "\tMinute:" + String(min) + "\tSecond:" + String(sec));
         }
     };
 #pragma endregion
@@ -122,7 +134,11 @@ namespace SIM7600
      */
     bool init()
     {
-        SerialAT.begin(SIM7600_BAUD, SERIAL_8N1, SIM7600_UART_RX, SIM7600_UART_TX);
+#if defined(SIM7600_UART_RX) && defined(SIM7600_UART_TX)
+        SIM7600_SERIAL.begin(SIM7600_BAUD, SERIAL_8N1, SIM7600_UART_RX, SIM7600_UART_TX);
+#else
+        SIM7600_SERIAL.begin(SIM7600_BAUD);
+#endif
         delay(6000);
 
         // This can take quite some time
@@ -177,6 +193,10 @@ namespace SIM7600
         return true;
     }
 
+    /**
+     * @brief Format a time_t value into an ISO8601 String
+     * ISO8601 is, YYYY-MM-DDThh:mm:ssZ
+     */
     String formatTimeISO8601(time_t t)
     {
         char buffer[25];
@@ -197,6 +217,10 @@ namespace SIM7600
         return String(buffer);
     }
 
+    /**
+     * @brief Format an ISO8601 String into a time_t value
+     * ISO8601 is, YYYY-MM-DDThh:mm:ssZ
+     */
     time_t formatTimeFromISO8601(String timestamp)
     {
         int Year, Month, Day, Hour, Minute, Second;
@@ -204,23 +228,22 @@ namespace SIM7600
                &Year, &Month, &Day, &Hour, &Minute, &Second);
         tmElements_t tm;
         tm.Year = Year - 1970; // Adjust year
-        tm.Month = Month;      // Adjust month
+        tm.Month = Month;      // TODO: Adjust month
         tm.Day = Day;
         tm.Hour = Hour;
         tm.Minute = Minute;
         tm.Second = Second;
         return makeTime(tm); // Convert to time_t
     }
+    class ClientSecure : public TinyGsmClientSecure
+    {
+    public:
+        // Wrap our client around the default SIM7600 client
+        SIM7600ClientSecure(int mux) : TinyGsmClientSecure(SIM7600::modem, mux){};
+    };
+    class Client : public TinyGsmClient
+    {
+        // Wrap our client around the default SIM7600 client
+        SIM7600Client(int mux) : TinyGsmClient(SIM7600::modem, mux){};
+    };
 }
-
-class SIM7600ClientSecure : public TinyGsmClientSecure
-{
-public:
-    // Wrap our client around the default SIM7600 client
-    SIM7600ClientSecure(int mux) : TinyGsmClientSecure(SIM7600::modem, mux){};
-};
-class SIM7600Client : public TinyGsmClient
-{
-    // Wrap our client around the default SIM7600 client
-    SIM7600Client(int mux) : TinyGsmClient(SIM7600::modem, mux){};
-};

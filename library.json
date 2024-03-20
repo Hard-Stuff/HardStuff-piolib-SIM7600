@@ -17,6 +17,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"paulstoffregen/Time": "^1.6.1",
+        "vshymanskyy/StreamDebugger": "^1.0.1",
         "TinyGSM": "git@github.com:Hard-Stuff/TinyGSM.git"
 	},
 	"frameworks": "*",
