@@ -1,11 +1,11 @@
 {
-	"name": "HardStuff_pio_bricks_SIM7600",
+	"name": "HardStuff-piolib-SIM7600",
 	"version": "0.0.1",
 	"description": "A wrapper around HardStuff's custom TinyGSM, that standardises the startup procedure and helper functions.",
 	"keywords": "http",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Matt-Stedman-HardStuff/HardStuff_pio_bricks_SIM7600.git"
+		"url": "https://github.com/Matt-Stedman-HardStuff/HardStuff-piolib-SIM7600.git"
 	},
 	"authors": [
 		{

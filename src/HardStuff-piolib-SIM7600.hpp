@@ -239,11 +239,11 @@ namespace SIM7600
     {
     public:
         // Wrap our client around the default SIM7600 client
-        SIM7600ClientSecure(int mux) : TinyGsmClientSecure(SIM7600::modem, mux){};
+        ClientSecure(int mux) : TinyGsmClientSecure(SIM7600::modem, mux){};
     };
     class Client : public TinyGsmClient
     {
         // Wrap our client around the default SIM7600 client
-        SIM7600Client(int mux) : TinyGsmClient(SIM7600::modem, mux){};
+        Client(int mux) : TinyGsmClient(SIM7600::modem, mux){};
     };
 }
