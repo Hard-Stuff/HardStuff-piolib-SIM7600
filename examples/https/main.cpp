@@ -14,7 +14,7 @@ void setup()
 
 void loop()
 {
-    HttpRequest request;
+    HardStuffHttpRequest request;
     request.addHeader("Connection", "close");
     request.addParam("device_mac", getMacAddress());
     request.body = "Hi there, how are you?";
