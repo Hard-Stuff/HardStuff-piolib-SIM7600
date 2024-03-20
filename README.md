@@ -2,7 +2,7 @@
 
 This brick _(a non-classable wrapper around a `lib`)_ is designed to abstract complexity away from using the SIM7600 module with TinyGSM, specifically for the 4G and GPS functionalities. This means:
 
--   calling high-level functions (e.g. `updateTime` of the ESP32 from NTP) rather than low-level functions (e.g.`modem.getGPSTime` then unpacking the time individually then `setTime` then etc...)
+-   calling high-level functions rather than low-level functions (e.g. `SIM7600::updateTime` of the esp32, instead of `modem.getGPSTime` then unpacking the time individually then `setTime` then etc...)
 -   standardise `#define` definitions, to make code more legible and repeatable.
 
 ## Usage
@@ -26,7 +26,7 @@ HardStuffHttpClient http_wiremock(sim_client, WIREMOCK_SERVER, WIREMOCK_PORT); /
 
 void setup() {
     SIM7600::init();
-    sim_client.setCACert(WIREMOCE_CERT_CA); // Set the SSL certificate for secure communication
+    sim_client.setCACert(WIREMOCK_CERT_CA); // Set the SSL certificate for secure communication between client and server.
 }
 
 void loop() {
@@ -51,7 +51,7 @@ You can modify the behaviour of the client and SIM7600 via the standardised defi
 
 // Inherited from TinyGSM
 #define DUMP_AT_COMMANDS          // Will dump your AT commands to Serial. Very useful for debugging, remove in production code!
-#define TINY_GSM_RX_BUFFER number // Modify the RX buffer size (default is 1024). Depends on your ,microcontroller.
+#define TINY_GSM_RX_BUFFER number // Modify the RX buffer size (default is 1024). Depends on your microcontroller.
 ```
 
 ### Client classes available
@@ -65,15 +65,19 @@ You can modify the behaviour of the client and SIM7600 via the standardised defi
 -   `updateTime()` uses the GPS to update the system time. If this is not possible, we use the network time. (You can also leverage NTPServerSync which is not accounted for yet).
 -   `getGPSCoordinates()` returns a `GPSResponse` struct, which contains the latitude, longitude, speed, date, and accuracy. This struct itself can return if it's `withinAccuracy` or `print` to Serial.
 
-
 ### Dependencies
 
-- paulstoffregen/Time
-- vshymanskyy/StreamDebugger
-- TinyGSM **[the Hard Stuff PR](github.com:Hard-Stuff/TinyGSM.git)**! (As this includes native SSL support for the SIM7600).
+-   paulstoffregen/Time
+-   vshymanskyy/StreamDebugger
+-   TinyGSM **[the Hard Stuff PR](github.com:Hard-Stuff/TinyGSM.git)**! (As this includes native SSL support for the SIM7600).
 
+## Compabibility and testing
+
+This library has been tested on the ESP32S3 with a SIMCOM SIM7600G for various purposes include OTA updates, MQTT to AWS IoT Core, and HTTP requests to Airtable, AWS, and Wiremock.
 
 ## Hard Stuff
 
 Hard Stuff is a hardware prototyping agency and venture studio focussing on sustainability tech, based in London, UK.
 Find out more at [hard-stuff.com](hard-stuff.com).
+
+This library is written and provided open-source in the hope that you go on to build great things.
