@@ -1,7 +1,7 @@
 
 #define SIM7600_APN "id" // for the "IdMobile" access point name in the UK
 
-#include <HardStuff_pio_bricks_SIM7600.hpp>
+#include <HardStuff-piolib-SIM7600.hpp>
 SIM7600::Client sim_client(0); // create a new unsecure SIM7600 client on MUX 0
 
 #include <ArduinoHttpClient.hpp>

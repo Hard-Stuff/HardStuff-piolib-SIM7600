@@ -1,9 +1,9 @@
 #include <configs/wiremock.h> // Define your wiremock details in a config
 
-#include <HardStuff_pio_bricks_SIM7600.hpp>
+#include <HardStuff-piolib-SIM7600.hpp>
 SIM7600::ClientSecure sim_client(0); // create a new secure SIM7600 client (SSL-secure ready), on MUX 0.
 
-#include <HardStuff_pio_lib_Http.hpp>
+#include <HardStuff-piolib-Http.hpp>
 HardStuffHttpClient http_wiremock(sim_client, WIREMOCK_SERVER, WIREMOCK_PORT); // Create an HTTP wrapper around the client
 
 void setup()
