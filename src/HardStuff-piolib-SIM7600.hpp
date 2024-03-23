@@ -193,48 +193,6 @@ namespace SIM7600
         return true;
     }
 
-    /**
-     * @brief Format a time_t value into an ISO8601 String
-     * ISO8601 is, YYYY-MM-DDThh:mm:ssZ
-     */
-    String formatTimeISO8601(time_t t)
-    {
-        char buffer[25];
-
-        // Break down time_t into its components
-        int Year = year(t);
-        int Month = month(t);
-        int Day = day(t);
-        int Hour = hour(t);
-        int Minute = minute(t);
-        int Second = second(t);
-
-        // Format the string in ISO 8601 format
-        // Note: This assumes UTC time. Adjust accordingly if using local time.
-        snprintf(buffer, sizeof(buffer), "%04d-%02d-%02dT%02d:%02d:%02d.000Z",
-                 Year, Month, Day, Hour, Minute, Second);
-
-        return String(buffer);
-    }
-
-    /**
-     * @brief Format an ISO8601 String into a time_t value
-     * ISO8601 is, YYYY-MM-DDThh:mm:ssZ
-     */
-    time_t formatTimeFromISO8601(String timestamp)
-    {
-        int Year, Month, Day, Hour, Minute, Second;
-        sscanf(timestamp.c_str(), "%04d-%02d-%02dT%02d:%02d:%02d.000Z",
-               &Year, &Month, &Day, &Hour, &Minute, &Second);
-        tmElements_t tm;
-        tm.Year = Year - 1970; // Adjust year
-        tm.Month = Month;      // TODO: Adjust month
-        tm.Day = Day;
-        tm.Hour = Hour;
-        tm.Minute = Minute;
-        tm.Second = Second;
-        return makeTime(tm); // Convert to time_t
-    }
     class ClientSecure : public TinyGsmClientSecure
     {
     public:

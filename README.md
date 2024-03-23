@@ -1,6 +1,6 @@
 # **Hard Stuff** bricks: SIMCOM SIM7600 TinyGSM wrapper
 
-This PlatformIO brick _(a non-classable wrapper around a `lib`)_ is designed to abstract complexity away from using the SIM7600 module with TinyGSM, specifically for the 4G and GPS functionalities. This means:
+This PlatformIO brick _(a namespaced wrapper around a `lib`)_ is designed to abstract complexity away from using the SIM7600 module with TinyGSM, specifically for the 4G and GPS functionalities. This means:
 
 -   calling high-level functions rather than low-level functions (e.g. `SIM7600::updateTime` of the esp32, instead of `modem.getGPSTime` then unpacking the time individually then `setTime` then etc...)
 -   standardise `#define` definitions, to make code more legible and repeatable.
