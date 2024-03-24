@@ -1,9 +1,9 @@
 #include <configs/wiremock.h> // Define your wiremock details in a config
 
-#include <HardStuff-piolib-SIM7600.hpp>
+#include <Hard-Stuff-SIM7600.hpp>
 SIM7600::ClientSecure sim_client(0); // create a new secure SIM7600 client (SSL-secure ready), on MUX 0.
 
-#include <HardStuff-piolib-Http.hpp>
+#include <Hard-Stuff-Http.hpp>
 HardStuffHttpClient http_wiremock(sim_client, WIREMOCK_SERVER, WIREMOCK_PORT); // Create an HTTP wrapper around the client
 
 void setup()
@@ -18,6 +18,6 @@ void loop()
     request.addHeader("Connection", "close");
     request.addParam("device_mac", getMacAddress());
     request.body = "Hi there, how are you?";
-    http_wiremock.postToHTTPServer("/friendly_wave").print(); // Perform a get request on the /hello_world endpoint and print the HTTP response.
+    http_wiremock.postToHTTPServer("/friendly_wave", &request).print(); // Perform a get request on the /hello_world endpoint and print the HTTP response.
     delay(1000);
 }

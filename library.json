@@ -1,11 +1,11 @@
 {
-	"name": "HardStuff-piolib-SIM7600",
+	"name": "SIM7600",
 	"version": "0.0.1",
-	"description": "A wrapper around HardStuff's custom TinyGSM, that standardises the startup procedure and helper functions.",
-	"keywords": "http",
+	"description": "A wrapper around Hard-Stuff's custom TinyGSM fork (which adds SSL to the SIM7600), that standardises the startup procedure and helper functions.",
+	"keywords": "sim7600, simcom, tinygsm",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Matt-Stedman-HardStuff/HardStuff-piolib-SIM7600.git"
+		"url": "https://github.com/Hard-Stuff/piolib-SIM7600.git"
 	},
 	"authors": [
 		{
